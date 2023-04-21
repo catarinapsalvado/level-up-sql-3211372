@@ -23,10 +23,45 @@
   WHERE CustomerID = 70 AND OrderDate = '2022-09-20 14:00:00') )
 
 SELECT * FROM OrdersDishes 
-WHERE OrderID = '1001'
+WHERE OrderID = 1001
 
-INSERT INTO OrdersDishes (DishID)
-VALUES (( SELECT Name FROM Dishes
-WHERE 
+SELECT * FROM Dishes
+WHERE Name = 'House Salad' OR Name = 'Mini Cheeseburgers' OR Name = 'Tropical Blue Smoothie'
 
+UPDATE OrdersDishes
+SET DishID = 4 WHERE OrderID= 1001; 
 
+INSERT INTO OrdersDishes(OrderID, DishID)
+VALUES (1001, (SELECT DishID FROM Dishes
+WHERE Name = 'House Salad'));
+
+INSERT INTO OrdersDishes(OrderID, DishID)
+VALUES (1001, (SELECT DishID FROM Dishes
+WHERE Name = 'Tropical Blue Smoothie'));
+
+-- Solução dele
+
+INSERT INTO OrdersDishes(OrderID, DishID)
+VALUES (1001, (SELECT DishID FROM Dishes WHERE Name = 'Tropical Blue Smoothie')),
+VALUES (1001, (SELECT DishID FROM Dishes WHERE Name = 'House Salad')),
+VALUES (1001, (SELECT DishID FROM Dishes WHERE Name = 'Mini Cheeseburguers'));
+
+--
+
+SELECT SUM (Price)
+FROM 
+(SELECT OrdersDishes.OrdersDishesID, OrdersDishes.OrderID, OrdersDishes.DishID, Dishes.Price FROM OrdersDishes
+JOIN Dishes ON OrdersDishes.DishID = Dishes.DishID)
+WHERE OrderID = 1001;
+
+-- 
+
+SELECT *
+FROM Dishes
+JOIN Orders.Dishes ON Dishes.DishID = OrdersDishes.DishID
+WHERE OrdersDishes.OrderID = 1001
+
+SELECT SUM(Dishes.Price)
+FROM Dishes
+JOIN OrderDishes ON Dishes.DishID = OrdersDishes.DishID
+WHERE OrdersDishes.OrderID = 1001;

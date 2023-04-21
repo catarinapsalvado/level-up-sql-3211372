@@ -23,5 +23,6 @@ SELECT Customers.FirstName, Customers.LastName, Reservations.Date, Reservations.
 JOIN Reservations ON Customers.CustomerID = Reservations.CustomerID
 WHERE Customers.CustomerID ='102'
 
+
 DELETE FROM Reservations
 WHERE ReservationID = 2001;
